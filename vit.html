@@ -5,7 +5,7 @@
 iframe{position:fixed;top:0;left:0;width:100vw;height:100vh;border:none}</style>
 </head>
 <body>
-<iframe src="https://noreplya4rdp.github.io/samb/google-sites-embed.html"></iframe>
+<iframe src="https://noreplya4rdp.github.io/samb/google-sites-embed.html?fullscreen=true&nopadding=1&embed=true"></iframe>
 <script>
 setTimeout(()=>{
 document.querySelectorAll('.WIdY2d,.M1aSXe,.YMEQtf').forEach(el=>{
@@ -81,6 +81,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
   <script>
 // Add this to YOUR GitHub Pages site (vit.html)
+
+    // Add at the beginning of your script
+if (window.location.search.includes('fullscreen=true')) {
+    // Force immediate fullscreen
+    document.body.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        z-index: 999999 !important;
+    `;
+}
 (function() {
     // Check if we're inside Google Sites
     const isInGoogleSites = window.location !== window.parent.location && 
@@ -114,7 +130,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('📏 Sent resize message to Google Sites');
     }
+  
 })();
+    
 </script>
   // ==== ADD TO YOUR vit.html ====
 <script>
@@ -158,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 })();
 </script>
+  
   
 </body>
 </html>
