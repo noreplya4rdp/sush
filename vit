@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading Dashboard...</title>
+<style>
+    /* NUCLEAR RESET */
+    * {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    html, body {
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    /* ==== SPECIFIC FIX FOR .TbNlJb ==== */
+    .TbNlJb {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        max-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        position: absolute !important;
+        top: -9999px !important;
+        z-index: -9999 !important;
+    }
+    
+    /* Fix its children too */
+    .TbNlJb * {
+        display: none !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Remove Google Sites header COMPLETELY */
+    [role="banner"], .BuY5Fd, .MVsrn, .E2UJ5,
+    .InHK7, .GG9xTc, .HCIIgf {
+        display: none !important;
+        height: 0 !important;
+        width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Main iframe */
+    #main-iframe {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        border: none !important;
+        z-index: 999999 !important;
+        background: #ffffff;
+    }
+</style>
+</head>
+<body>
+    <iframe id="main-iframe" 
+            src="https://noreplya4rdp.github.io/samb/google-sites-embed.html"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            title="Your Dashboard">
+    </iframe>
+    
+    <script>
+    (function() {
+        // AGGRESSIVE FIX - Remove .TbNlJb entirely
+        function removeTbNlJb() {
+            // Method 1: Remove from DOM
+            const tbElements = document.querySelectorAll('.TbNlJb');
+            tbElements.forEach(el => {
+                el.style.display = 'none';
+                el.style.height = '0';
+                el.style.padding = '0';
+                el.style.margin = '0';
+                el.style.visibility = 'hidden';
+                el.style.opacity = '0';
+                
+                // Try to remove it completely
+                if (el.parentNode) {
+                    el.parentNode.removeChild(el);
+                }
+            });
+            
+            // Method 2: Force override with CSS injection
+            const style = document.createElement('style');
+            style.id = 'kill-tbnljb';
+            style.textContent = `
+                /* KILL .TbNlJb and friends */
+                .TbNlJb, .TbNlJb  {
+                    display: none !important;
+                    height: 0 !important;
+                    min-height: 0 !important;
+                    max-height: 0 !important;
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    border: 0 !important;
+                    opacity: 0 !important;
+                    visibility: hidden !important;
+                    position: absolute !important;
+                    top: -9999px !important;
+                    left: -9999px !important;
+                    z-index: -9999 !important;
+                    pointer-events: none !important;
+                }
+                
+                /* Remove any space it occupied */
+                .M63kCb {
+                    padding-top: 0 !important;
+                    margin-top: 0 !important;
+                }
+                
+                /* Fix the container */
+                .QZ3zWd {
+                    margin-top: -28px !important; /* Compensate for removed height */
+                }
+            `;
+            
+            if (!document.getElementById('kill-tbnljb')) {
+                document.head.appendChild(style);
+            }
+            
+            console.log('Removed .TbNlJb elements:', tbElements.length);
+        }
+        
+        // Run multiple times to catch dynamic elements
+        setTimeout(removeTbNlJb, 100);
+        setTimeout(removeTbNlJb, 500);
+        setTimeout(removeTbNlJb, 1000);
+        
+        // Watch for new elements
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.addedNodes.length) {
+                    removeTbNlJb();
+                }
+            });
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+        
+        // Also fix the iframe position
+        const iframe = document.getElementById('main-iframe');
+        iframe.style.position = 'fixed';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        
+        // Force check on resize
+        window.addEventListener('resize', function() {
+            iframe.style.height = window.innerHeight + 'px';
+            iframe.style.width = window.innerWidth + 'px';
+            removeTbNlJb();
+        });
+        
+    })();
+    </script>
+</body>
+</html>
