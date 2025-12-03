@@ -13,5 +13,43 @@ el.style.cssText='position:fixed!important;top:0!important;left:0!important;widt
 document.querySelector('iframe.YMEQtf').style.cssText='position:fixed!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important';
 },100);
 </script>
+  <script>
+// Add this to YOUR GitHub Pages site (vit.html)
+(function() {
+    // Check if we're inside Google Sites
+    const isInGoogleSites = window.location !== window.parent.location && 
+                           (document.referrer.includes('sites.google.com') || 
+                            window.parent.location.href.includes('sites.google.com'));
+    
+    if (isInGoogleSites) {
+        // Step 1: Make YOUR site fullscreen
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.width = '100vw';
+        document.body.style.height = '100vh';
+        document.body.style.overflow = 'hidden';
+        
+        // Step 2: Send message to parent about size
+        function sendResizeMessage() {
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'resize-frame',
+                    height: window.innerHeight,
+                    width: window.innerWidth
+                }, '*');
+            }
+        }
+        
+        // Send initial size
+        sendResizeMessage();
+        
+        // Send on resize
+        window.addEventListener('resize', sendResizeMessage);
+        
+        console.log('📏 Sent resize message to Google Sites');
+    }
+})();
+</script>
+  
 </body>
 </html>
