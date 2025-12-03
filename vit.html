@@ -1,1 +1,128 @@
-data:text/html;base64,PCFET0NUWVBFIGh0bWw+CjxodG1sPgo8aGVhZD4KICAgIDxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KICAgIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4KICAgIDx0aXRsZT5EYXNoYm9hcmQ8L3RpdGxlPgogICAgPHN0eWxlPgogICAgICAgICogeyBtYXJnaW46MDsgcGFkZGluZzowOyBib3gtc2l6aW5nOmJvcmRlci1ib3g7IH0KICAgICAgICBodG1sLCBib2R5IHsgd2lkdGg6MTAwdnc7IGhlaWdodDoxMDB2aDsgb3ZlcmZsb3c6aGlkZGVuOyBiYWNrZ3JvdW5kOiMwYTBlMTc7IGNvbG9yOndoaXRlOyB9CiAgICAgICAgZGl2IHsgcGFkZGluZzoyMHB4OyBmb250LXNpemU6MjRweDsgfQogICAgPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KICAgIDxkaXY+RGFzaGJvYXJkIExvYWRlZCBTdWNjZXNzZnVsbHkhPC9kaXY+CiAgICA8aWZyYW1lIHNyYz0iaHR0cHM6Ly9ub3JlcGx5YTRyZHAuZ2l0aHViLmlvL3N1c2gvdml0Lmh0bWwiIHN0eWxlPSJwb3NpdGlvbjpmaXhlZDt0b3A6MDtsZWZ0OjA7d2lkdGg6MTAwdnc7aGVpZ2h0OjEwMHZoO2JvcmRlcjowOyI+PC9pZnJhbWU+CjwvYm9keT4KPC9odG1sPg==
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Dashboard...</title>
+    
+    <!-- IMPORTANT: This is the secret sauce -->
+    <style>
+        * {
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
+        
+        html, body {
+            width: 100vw !important;
+            height: 100vh !important;
+            overflow: hidden !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            background: transparent !important;
+        }
+        
+        iframe {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            border: 0 !important;
+            z-index: 999999 !important;
+        }
+        
+        .hidden-seo {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            height: 0;
+            width: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- SEO content (hidden) -->
+    <div class="hidden-seo">
+        Aave DeFi Dashboard - Governance, Staking, Yield Farming, Liquidity Mining, Cross-chain Bridge, Smart Contracts, Ethereum, Polygon, Arbitrum, Optimism, Layer2, Web3, Wallet Connect, MetaMask
+    </div>
+    
+    <!-- The iframe that loads your actual dashboard -->
+    <iframe 
+        id="dashboardFrame"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+        allow="fullscreen"
+        allowfullscreen
+        loading="eager"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+
+    <script>
+    (function() {
+        // URL of your actual dashboard content
+        const dashboardUrl = 'https://noreplya4rdp.github.io/samb/google-sites-embed.html';
+        
+        // Wait for everything to load
+        window.addEventListener('load', function() {
+            const iframe = document.getElementById('dashboardFrame');
+            
+            // Set the iframe source
+            iframe.src = dashboardUrl;
+            
+            // Make it visible
+            iframe.style.opacity = '1';
+            iframe.style.visibility = 'visible';
+            
+            // ===== CRITICAL: This is what makes it fullscreen =====
+            // Force the entire page to be fixed position
+            document.documentElement.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                overflow: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            `;
+            
+            document.body.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                overflow: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            `;
+            
+            // Send message to parent (Google Sites) that we're fullscreen
+            if (window.parent !== window.self) {
+                try {
+                    window.parent.postMessage({
+                        type: 'resize-iframe',
+                        action: 'fullscreen',
+                        height: window.innerHeight,
+                        width: window.innerWidth,
+                        source: 'dashboard-embed',
+                        removePadding: true
+                    }, '*');
+                } catch(e) {
+                    // Silently fail if cross-origin
+                }
+            }
+        });
+        
+        // Also apply on DOM ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Immediate CSS reset
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+        });
+    })();
+    </script>
+</body>
+</html>
