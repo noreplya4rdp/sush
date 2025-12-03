@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * { margin: 0; padding: 0; }
+        html, body, iframe { width: 100vw; height: 100vh; }
+        iframe { border: none; display: block; }
+    </style>
+</head>
+<body>
+    <iframe src="https://noreplya4rdp.github.io/sush/vit.html"></iframe>
+    
+    <script>
+    // Listen for resize messages
+    window.addEventListener('message', (e) => {
+        if (e.data.type === 'resize-frame') {
+            // Resize this iframe to match content
+            document.querySelector('iframe').style.height = e.data.height + 'px';
+        }
+    });
+    
+    // Also try to fix Google Sites containers
+    setTimeout(() => {
+        const style = document.createElement('style');
+        style.textContent = `
+            .WIdY2d, .M1aSXe, .YMEQtf {
+                top: 0 !important;
+                left: 0 !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }, 1000);
+    </script>
+</body>
+</html>
