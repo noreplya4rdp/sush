@@ -170,5 +170,55 @@
         
     })();
     </script>
+
+    <script>
+// Add this to your existing vit.html file
+(function() {
+    // Only run if inside Google Sites
+    if (window.location.href.includes('sites.google.com') || 
+        window.parent !== window) {
+        
+        // Inject CSS to parent (Google Sites)
+        const css = `
+            .WIdY2d, .M1aSXe, .YMEQtf, .w536ob {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            iframe.YMEQtf {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+            }
+        `;
+        
+        // Try to inject into parent
+        try {
+            const style = document.createElement('style');
+            style.textContent = css;
+            
+            // If we're in an iframe, inject to parent
+            if (window.parent !== window) {
+                window.parent.document.head.appendChild(style.cloneNode(true));
+            }
+            
+            // Also inject to our own document
+            document.head.appendChild(style);
+            
+            console.log('✅ Injected Google Sites fix');
+        } catch (e) {
+            console.log('⚠️ Could not inject CSS (CORS restriction)');
+        }
+    }
+})();
+</script>
+    
 </body>
 </html>
