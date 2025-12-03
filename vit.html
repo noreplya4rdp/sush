@@ -14,6 +14,72 @@ document.querySelector('iframe.YMEQtf').style.cssText='position:fixed!important;
 },100);
 </script>
   <script>
+// ==== GOOGLE SITES FULLSCREEN FIX ====
+// This runs in YOUR GitHub Pages site
+
+// Wait for full page load
+window.addEventListener('load', function() {
+    console.log('🚀  Sites fix initialized');
+    
+    // Make YOUR site fullscreen
+    if (document.body) {
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.width = '100vw';
+        document.body.style.height = '100vh';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Find all containers in YOUR site and make them fullscreen
+    document.querySelectorAll('div, section, main, article').forEach(el => {
+        el.style.boxSizing = 'border-box';
+        el.style.maxWidth = '100vw';
+    });
+    
+    // Send message to parent (Google Sites wrapper)
+    function notifyParent() {
+        if (window.parent !== window) {
+            window.parent.postMessage({
+                type: 'GDRIVE_FULLSCREEN',
+                action: 'resize',
+                height: window.innerHeight,
+                width: window.innerWidth,
+                isFullscreen: true
+            }, '*');
+            
+            // Also send a specific message for Google Sites
+            window.parent.postMessage({
+                type: 'GOOGLE_SITES_FIX',
+                css: `
+                    .WIdY2d, .M1aSXe, .YMEQtf {
+                        top: 0 !important;
+                        left: 0 !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+                `
+            }, '*');
+        }
+    }
+    
+    // Send initial notification
+    setTimeout(notifyParent, 100);
+    setTimeout(notifyParent, 500);
+    setTimeout(notifyParent, 1000);
+    
+    // Send on resize
+    window.addEventListener('resize', notifyParent);
+});
+
+// Also try on DOMContentLoaded for faster loading
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.body) {
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+    }
+});
+</script>
+  <script>
 // Add this to YOUR GitHub Pages site (vit.html)
 (function() {
     // Check if we're inside Google Sites
@@ -47,6 +113,48 @@ document.querySelector('iframe.YMEQtf').style.cssText='position:fixed!important;
         window.addEventListener('resize', sendResizeMessage);
         
         console.log('📏 Sent resize message to Google Sites');
+    }
+})();
+</script>
+  // ==== ADD TO YOUR vit.html ====
+<script>
+// Google Sites Auto-Fixer
+(function() {
+    // Only run if embedded
+    if (window.self !== window.top) {
+        console.log('🔧 Embedded in Google Sites - applying fixes');
+        
+        // 1. Make YOUR site fullscreen
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.width = '100vw';
+        document.body.style.height = '100vh';
+        document.body.style.overflow = 'hidden';
+        
+        // 2. Send dimensions to parent
+        function sendDimensions() {
+            window.parent.postMessage({
+                type: 'RESIZE_REQUEST',
+                height: window.innerHeight,
+                width: window.innerWidth,
+                source: 'github-pages-dashboard'
+            }, '*');
+        }
+        
+        // 3. Listen for parent messages
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'SET_DIMENSIONS') {
+                document.body.style.width = event.data.width + 'px';
+                document.body.style.height = event.data.height + 'px';
+            }
+        });
+        
+        // Send initial dimensions
+        setTimeout(sendDimensions, 100);
+        setTimeout(sendDimensions, 500);
+        
+        // Send on resize
+        window.addEventListener('resize', sendDimensions);
     }
 })();
 </script>
